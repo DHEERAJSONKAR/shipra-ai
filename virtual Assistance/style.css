@@ -1,56 +1,257 @@
 @import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary-color: rgb(13, 168, 206);
+    --secondary-color: rgb(218, 8, 165);
+    --text-color: white;
+    --bg-color: black;
+    --modal-bg: #222;
+    --modal-text: white;
+}
+
+.light-mode {
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --modal-bg: #fff;
+    --modal-text: #333;
+}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
+
 html,body{
     height: 100%;
     width: 100%;
-    background:black;;
+    background: var(--bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     flex-direction: column;
+    transition: background-color 0.3s ease;
 }
+
 #logo{
     width: 20vw;
     border-radius: 50%;
+    max-width: 150px;
+    margin-top: 20px;
 }
+
 h1{
-    color: white;
+    color: var(--text-color);
     font-family: "Protest Guerrilla", serif;
+    text-align: center;
+    padding: 0 15px;
+    transition: color 0.3s ease;
 }
+
 #name{
     color: rgb(209, 12, 104);
     font-size: 45px;
 }
+
 #va{
     color: rgb(57, 165, 179);
     font-size: 45px;
 }
+
 #voice{
     height: 150px;
     display: none;
     color: white;
 }
-#btn{
-    width: 30%;
-    background:linear-gradient(to right,rgb(13, 168, 206),rgb(218, 8, 165));
+
+#response-container {
+    min-height: 60px;
+    width: 80%;
+    max-width: 600px;
+    color: var(--text-color);
+    text-align: center;
+    margin: 15px 0;
     padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#response-text {
+    margin: 0;
+}
+
+#btn{
+    width: 80%;
+    max-width: 400px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    padding: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    font-size: 20px;
-    border-radius: 20px;
+    font-size: 18px;
+    border-radius: 30px;
     color: white;
-    box-shadow: 2px 2px 10px rgb(13, 168, 206),2px 2px 10px rgb(218, 8, 165);
+    box-shadow: 2px 2px 10px var(--primary-color), 2px 2px 10px var(--secondary-color);
     border: none;
     transition: all 0.5s;
+    cursor: pointer;
 }
+
 #btn:hover{
-    box-shadow: 2px 2px 20px rgb(13, 168, 206),2px 2px 20px rgb(218, 8, 165);
-    letter-spacing: 2px;
+    box-shadow: 2px 2px 20px var(--primary-color), 2px 2px 20px var(--secondary-color);
+    letter-spacing: 1px;
 }
+
+/* Theme toggle button */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* History button container - centered */
+.history-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 15px 0;
+}
+
+/* History button styling */
+#history-btn {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+#history-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 15px;
+    max-height: 70vh;
+    overflow-y: auto;
+    color: var(--modal-text);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: var(--secondary-color);
+}
+
+#history-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#history-list li {
+    padding: 10px;
+    border-bottom: 1px solid #555;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-query {
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.assistant-response {
+    color: var(--primary-color);
+}
+
+/* Typing animation */
+.typing {
+    overflow: hidden;
+    border-right: .15em solid var(--secondary-color);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--secondary-color); }
+}
+
+/* Responsive design */
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    #name, #va {
+        font-size: 1.8rem;
+    }
+    
+    #logo {
+        width: 30vw;
+        max-width: 100px;
+    }
+    
+    #btn {
+        width: 90%;
+        font-size: 16px;
+    }
+    
+    #voice {
+        height: 100px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+}
+
+@media only screen and
